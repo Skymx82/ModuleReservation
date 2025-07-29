@@ -64,8 +64,8 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
         <div className="mb-6 w-full">
           {/* Calendriers avec affichage adaptatif */}
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Premier calendrier (arrivée) */}
-            <div className="w-full md:w-1/2">
+            {/* Premier calendrier (arrivée) - visible uniquement sur desktop */}
+            <div className="hidden md:block w-full md:w-1/2">
               <div className="p-2 bg-white rounded-xl shadow-md">
                 <Calendar
                   date={startDate}
@@ -73,20 +73,15 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
                   locale={fr}
                   minDate={new Date()}
                   color="#3b82f6"
-                  className="rounded-xl overflow-hidden w-full border-0 text-sm sm:text-base"
+                  className="rounded-xl overflow-hidden w-full border-0 text-base"
                   showMonthAndYearPickers={true}
                   showDateDisplay={false}
                 />
               </div>
-              <div className="mt-2 text-center block md:hidden">
-                <div className="text-blue-600 font-medium">
-                  {selectingStart ? "Sélectionnez votre arrivée" : ""}
-                </div>
-              </div>
             </div>
             
-            {/* Deuxième calendrier (départ) */}
-            <div className="w-full md:w-1/2 mt-4 md:mt-0">
+            {/* Deuxième calendrier (départ) - visible uniquement sur desktop */}
+            <div className="hidden md:block w-full md:w-1/2">
               <div className="p-2 bg-white rounded-xl shadow-md">
                 <Calendar
                   date={endDate}
@@ -94,15 +89,38 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
                   locale={fr}
                   minDate={new Date()}
                   color="#3b82f6"
-                  className="rounded-xl overflow-hidden w-full border-0 text-sm sm:text-base"
+                  className="rounded-xl overflow-hidden w-full border-0 text-base"
                   showMonthAndYearPickers={true}
                   showDateDisplay={false}
                 />
               </div>
-              <div className="mt-2 text-center block md:hidden">
-                <div className="text-blue-600 font-medium">
-                  {!selectingStart ? "Sélectionnez votre départ" : ""}
+            </div>
+            
+            {/* Calendrier unique pour mobile - alterne entre arrivée et départ */}
+            <div className="block md:hidden w-full">
+              <div className="p-2 bg-white rounded-xl shadow-md">
+                <Calendar
+                  date={selectingStart ? startDate : endDate}
+                  onChange={handleDateSelect}
+                  locale={fr}
+                  minDate={selectingStart ? new Date() : startDate || new Date()}
+                  color="#3b82f6"
+                  className="rounded-xl overflow-hidden w-full border-0 text-sm"
+                  showMonthAndYearPickers={true}
+                  showDateDisplay={false}
+                />
+              </div>
+              <div className="mt-3 text-center">
+                <div className="bg-blue-100 py-2 px-3 rounded-lg">
+                  <span className="text-blue-700 font-medium">
+                    {selectingStart ? "Sélectionnez votre date d'arrivée" : "Sélectionnez votre date de départ"}
+                  </span>
                 </div>
+                {startDate && !selectingStart && (
+                  <div className="mt-2 text-sm text-gray-600">
+                    Date d'arrivée sélectionnée: {format(startDate, "dd/MM/yyyy", { locale: fr })}
+                  </div>
+                )}
               </div>
             </div>
           </div>
