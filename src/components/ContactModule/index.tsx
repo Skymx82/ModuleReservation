@@ -7,17 +7,19 @@ import DateSelectionStep from "./DateSelectionStep";
 import RoomSelectionStep from "./RoomSelectionStep";
 import ContactFormStep from "./ContactFormStep";
 import StepIndicator from "./StepIndicator";
+import GuestCountStep from "./GuestCountStep";
 import { roomTypes } from "./roomData";
 import { FormData, RoomType, DateRangeType } from "./types";
 
 export default function ContactModule() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Dates, 2: Chambre, 3: Coordonnées
+  const [currentStep, setCurrentStep] = useState(1); // 1: Dates, 2: Nombre de personnes, 3: Chambre, 4: Coordonnées
   const [dateRange, setDateRange] = useState<DateRangeType>({
     startDate: null,
     endDate: null,
     key: "selection",
   });
+  const [guestCount, setGuestCount] = useState(2); // Nombre de personnes par défaut
   const [selectedRoom, setSelectedRoom] = useState<RoomType | null>(null);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -45,10 +47,13 @@ export default function ContactModule() {
   };
 
   const handleNextStep = () => {
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
+  
+  // Filtrer les chambres en fonction du nombre de personnes
+  const availableRooms = roomTypes.filter(room => room.capacity >= guestCount);
 
   const handlePrevStep = () => {
     if (currentStep > 1) {
@@ -76,6 +81,7 @@ export default function ContactModule() {
         endDate: null,
         key: "selection",
       });
+      setGuestCount(2);
     }
     setFormData({
       firstName: "",
@@ -140,7 +146,7 @@ export default function ContactModule() {
           </div>
 
           {/* Indicateur d'étapes */}
-          <StepIndicator currentStep={currentStep} totalSteps={3} />
+          <StepIndicator currentStep={currentStep} totalSteps={4} />
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Étape 1: Sélection des dates */}
@@ -150,19 +156,27 @@ export default function ContactModule() {
                 setDateRange={setDateRange} 
               />
             )}
-
-            {/* Étape 2: Sélection de la chambre */}
+            
+            {/* Étape 2: Sélection du nombre de personnes */}
             {currentStep === 2 && (
+              <GuestCountStep
+                guestCount={guestCount}
+                setGuestCount={setGuestCount}
+              />
+            )}
+
+            {/* Étape 3: Sélection de la chambre */}
+            {currentStep === 3 && (
               <RoomSelectionStep 
-                roomTypes={roomTypes} 
+                roomTypes={availableRooms.length > 0 ? availableRooms : roomTypes} 
                 selectedRoom={selectedRoom} 
                 setSelectedRoom={setSelectedRoom}
                 dateRange={dateRange}
               />
             )}
 
-            {/* Étape 3: Coordonnées */}
-            {currentStep === 3 && (
+            {/* Étape 4: Coordonnées */}
+            {currentStep === 4 && (
               <ContactFormStep 
                 formData={formData} 
                 handleChange={handleChange} 
@@ -180,11 +194,11 @@ export default function ContactModule() {
                 </button>
               )}
               
-              {currentStep < 3 ? (
+              {currentStep < 4 ? (
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  disabled={currentStep === 2 && !selectedRoom}
+                  disabled={(currentStep === 2 && guestCount < 1) || (currentStep === 3 && !selectedRoom) || (currentStep === 1 && (!dateRange.startDate || !dateRange.endDate))}
                   className={`px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors ${currentStep === 2 && !selectedRoom ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   Suivant
