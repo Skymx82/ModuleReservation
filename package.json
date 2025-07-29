@@ -9,16 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-date-range": "^1.4.10",
+    "@types/react-datepicker": "^6.2.0",
+    "date-fns": "^4.1.0",
+    "next": "15.4.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.4"
+    "react-date-range": "^2.0.1",
+    "react-datepicker": "^8.4.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
