@@ -62,7 +62,9 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
       <h3 className="text-xl font-medium text-gray-800 mb-6">Sélectionnez vos dates de séjour</h3>
       <div className="flex flex-col items-center w-full px-2">
         <div className="mb-6 w-full">
-          <div className="flex flex-wrap md:flex-nowrap gap-4">
+          {/* Calendriers avec affichage adaptatif */}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Premier calendrier (arrivée) */}
             <div className="w-full md:w-1/2">
               <div className="p-2 bg-white rounded-xl shadow-md">
                 <Calendar
@@ -71,13 +73,20 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
                   locale={fr}
                   minDate={new Date()}
                   color="#3b82f6"
-                  className="rounded-xl overflow-hidden w-full border-0 text-base"
+                  className="rounded-xl overflow-hidden w-full border-0 text-sm sm:text-base"
                   showMonthAndYearPickers={true}
                   showDateDisplay={false}
                 />
               </div>
+              <div className="mt-2 text-center block md:hidden">
+                <div className="text-blue-600 font-medium">
+                  {selectingStart ? "Sélectionnez votre arrivée" : ""}
+                </div>
+              </div>
             </div>
-            <div className="w-full md:w-1/2">
+            
+            {/* Deuxième calendrier (départ) */}
+            <div className="w-full md:w-1/2 mt-4 md:mt-0">
               <div className="p-2 bg-white rounded-xl shadow-md">
                 <Calendar
                   date={endDate}
@@ -85,10 +94,15 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
                   locale={fr}
                   minDate={new Date()}
                   color="#3b82f6"
-                  className="rounded-xl overflow-hidden w-full border-0 text-base"
+                  className="rounded-xl overflow-hidden w-full border-0 text-sm sm:text-base"
                   showMonthAndYearPickers={true}
                   showDateDisplay={false}
                 />
+              </div>
+              <div className="mt-2 text-center block md:hidden">
+                <div className="text-blue-600 font-medium">
+                  {!selectingStart ? "Sélectionnez votre départ" : ""}
+                </div>
               </div>
             </div>
           </div>
@@ -104,19 +118,24 @@ export default function DateSelectionStep({ dateRange, setDateRange }: DateSelec
         
         {hasSelection && startDate && endDate && (
           <>
-            <div className="w-full mt-6 bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-xl flex justify-between items-center shadow-sm">
-              <div>
+            <div className="w-full mt-6 bg-gradient-to-r from-blue-50 to-blue-100 p-4 sm:p-5 rounded-xl flex flex-col sm:flex-row justify-between items-center shadow-sm">
+              <div className="text-center sm:text-left mb-3 sm:mb-0">
                 <span className="font-medium text-gray-600">Arrivée</span><br/>
-                <span className="text-lg font-semibold text-gray-800">{format(startDate, "dd MMMM yyyy", { locale: fr })}</span>
+                <span className="text-base sm:text-lg font-semibold text-gray-800">{format(startDate, "dd MMM yyyy", { locale: fr })}</span>
               </div>
-              <div className="text-blue-400">
+              <div className="text-blue-400 hidden sm:block">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </div>
-              <div>
+              <div className="text-blue-400 block sm:hidden mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
+              <div className="text-center sm:text-right">
                 <span className="font-medium text-gray-600">Départ</span><br/>
-                <span className="text-lg font-semibold text-gray-800">{format(endDate, "dd MMMM yyyy", { locale: fr })}</span>
+                <span className="text-base sm:text-lg font-semibold text-gray-800">{format(endDate, "dd MMM yyyy", { locale: fr })}</span>
               </div>
             </div>
             <div className="w-full mt-3 text-center font-medium text-lg">

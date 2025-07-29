@@ -76,8 +76,8 @@ export default function ContactFormStep({ formData, handleChange }: ContactFormS
         />
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        <div>
+      <div className="mt-4 grid grid-cols-3 sm:grid-cols-3 gap-2">
+        <div className="col-span-1">
           <label htmlFor="phoneCode" className="block text-sm font-medium text-gray-700 mb-1">
             Indicatif
           </label>
@@ -86,13 +86,13 @@ export default function ContactFormStep({ formData, handleChange }: ContactFormS
             name="phoneCode"
             value={formData.phoneCode}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
             required
           >
-            <option value="+33">+33 (France)</option>
-            <option value="+32">+32 (Belgique)</option>
-            <option value="+41">+41 (Suisse)</option>
-            <option value="+1">+1 (Canada/USA)</option>
+            <option value="+33">+33</option>
+            <option value="+32">+32</option>
+            <option value="+41">+41</option>
+            <option value="+1">+1</option>
           </select>
         </div>
         <div className="col-span-2">
@@ -107,6 +107,7 @@ export default function ContactFormStep({ formData, handleChange }: ContactFormS
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            placeholder="Votre numéro"
           />
         </div>
       </div>

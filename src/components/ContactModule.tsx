@@ -126,19 +126,45 @@ export default function ContactModule() {
       {/* Bouton flottant */}
       <button
         onClick={toggleModule}
-        className={`fixed bottom-6 right-6 z-50 rounded-full bg-blue-800 text-white p-4 shadow-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center ${
-          isOpen ? "rotate-45" : ""
-        }`}
-        aria-label="Ouvrir le formulaire de contact"
+        className={`fixed bottom-6 right-6 z-50 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 px-5 shadow-lg hover:from-blue-700 hover:to-blue-900 transition-all duration-300 flex items-center gap-2 ${isOpen ? "scale-95" : "scale-100"}`}
+        aria-label="Ouvrir le formulaire de réservation"
       >
         {isOpen ? (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+            <span className="font-medium">Fermer</span>
+          </>
         ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
+          <>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <span className="font-medium">Réserver ici</span>
+          </>
         )}
       </button>
 
@@ -152,11 +178,17 @@ export default function ContactModule() {
 
       {/* Module de réservation */}
       <div
-        className={`fixed top-0 right-0 h-full w-full md:w-[500px] bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        } overflow-y-auto`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[90%] md:w-[600px] lg:w-[700px] bg-white z-50 shadow-2xl transform transition-transform duration-300 overflow-y-auto ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="p-6 text-gray-800">
+        {/* Styles personnalisés pour les très petits écrans */}
+        <style jsx global>{`
+          @media (min-width: 400px) {
+            .xs\:block {
+              display: block;
+            }
+          }
+        `}</style>
+        <div className="p-4 sm:p-6 text-gray-800">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800">Réservation</h2>
             <button
